@@ -1,0 +1,65 @@
+apply plugin: 'maven'
+apply plugin: 'signing'
+
+task javadocJar(type: Jar) {
+    classifier = 'javadoc'
+    from javadoc
+}
+
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+artifacts {
+    archives javadocJar, sourcesJar
+}
+
+signing {
+    sign configurations.archives
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
+
+            snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
+
+            pom.project {
+                name "Matthew Johnson's Java Libraries"
+                packaging 'jar'
+                // optionally artifactId can be defined here
+                description 'These are a selection of libraries for Java which Matthew Johnson has written because they are useful and not provided with normal Java.'
+                url 'https://github.com/bdeneuter/matthew'
+
+                scm {
+                    connection 'scm:git:https://github.com/bdeneuter/matthew.git'
+                    developerConnection 'scm:git:https://github.com/bdeneuter/matthew.git'
+                    url 'https://github.com/bdeneuter/matthew.git'
+                }
+
+                licenses {
+                    license {
+                        name 'MIT'
+                        url 'https://opensource.org/licenses/MIT'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id 'matthew'
+                        name 'Matthew Johnson'
+                        email 'src@matthew.ath.cx'
+                    }
+                }
+            }
+        }
+    }
+}

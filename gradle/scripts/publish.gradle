@@ -47,8 +47,8 @@ uploadArchives {
 
                 licenses {
                     license {
-                        name 'MIT'
-                        url 'https://opensource.org/licenses/MIT'
+                        name 'MIT License'
+                        url 'hhttp://www.opensource.org/licenses/mit-license.php'
                     }
                 }
 
@@ -57,6 +57,11 @@ uploadArchives {
                         id 'matthew'
                         name 'Matthew Johnson'
                         email 'src@matthew.ath.cx'
+                    }
+                    developer {
+                        id 'bart'
+                        name 'Bart De Neuter'
+                        email 'bdeneuter@gmail.com'
                     }
                 }
             }
